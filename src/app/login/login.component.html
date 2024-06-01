@@ -1,0 +1,26 @@
+<div class="login">
+    <div class="login-image">
+        <img src="./assets/images/login-bg.png" alt="">
+    </div>
+    <div class="login-block">
+        <div class="login-form">
+            <div class="login-form-title">
+                <h1>Welcome to <span>dev</span>TimeTracker! <span class="pi pi-clock"></span></h1>
+                <h3>Your <span>time</span>, your <span>work</span>, your <span>efficiency</span>.</h3>
+            </div>
+            <form action="">
+                <span class="font-bold block mb-2">Email</span>
+                <div class="icon-input">
+                    <span class="pi pi-at"></span>
+                    <input type="text" pInputText placeholder="Your email here"/>
+                </div> 
+                <span class="font-bold block mb-2">Password</span>
+                <div class="icon-input">
+                    <span class="pi pi-lock"></span>
+                    <p-password placeholder="Your password here" [feedback]="false" [toggleMask]="true"/>
+                </div>
+                <p-button label="Login"/>
+            </form>
+        </div>
+    </div>
+</div>
