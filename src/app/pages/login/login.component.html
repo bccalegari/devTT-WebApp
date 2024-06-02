@@ -1,4 +1,5 @@
 <div class="login">
+    <p-toast [breakpoints]="{ '920px': { width: '70%', right: '0', left: '0', margin: '0px 0px 0px 15px', padding: '0px 20px 0px 0px' } }"/>
     <div class="login-image">
         <img src="./assets/images/login-bg.png" alt="">
     </div>
@@ -8,18 +9,18 @@
                 <h1>Welcome to <span>dev</span>TimeTracker! <span class="pi pi-clock"></span></h1>
                 <h3>Your <span>time</span>, your <span>work</span>, your <span>efficiency</span>.</h3>
             </div>
-            <form action="">
+            <form [formGroup]="loginForm">
                 <span class="font-bold block mb-2">Email</span>
                 <div class="icon-input">
                     <span class="pi pi-at"></span>
-                    <input type="text" pInputText placeholder="Your email here"/>
+                    <input type="text" pInputText placeholder="Your email here" formControlName="email"/>
                 </div> 
                 <span class="font-bold block mb-2">Password</span>
                 <div class="icon-input">
                     <span class="pi pi-lock"></span>
-                    <p-password placeholder="Your password here" [feedback]="false" [toggleMask]="true"/>
+                    <p-password placeholder="Your password here" [feedback]="false" [toggleMask]="true" formControlName="password"/>
                 </div>
-                <p-button label="Login"/>
+                <p-button label="Login" (onClick)="login()" [disabled]="isLoginButtonDisabled"/>
             </form>
         </div>
     </div>
