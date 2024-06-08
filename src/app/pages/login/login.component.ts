@@ -5,10 +5,10 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 import { LoginService } from '../../services/login/login.service';
 import { LoginValidator } from '../../validators/login/login.validator';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
+import { NotificationService } from '../../services/notification/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators, F
   imports: [
     InputTextModule, PasswordModule, IconFieldModule, InputIconModule, ButtonModule, ToastModule, ReactiveFormsModule, FormsModule
   ],
-  providers: [MessageService],
+  providers: [NotificationService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -26,22 +26,29 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoginButtonDisabled: boolean = false;
   private clickCount: number = 0;
   private maxClicks: number = 5;
-  private resetInterval: number = 60000 * 2 // 2 minute
+  private resetInterval: number = 60000 // 1 minute
   private timerFn: any;
   
   constructor(
     private loginService: LoginService,
     private loginValidator: LoginValidator,
     private formBuilder: FormBuilder,
-    private messageService: MessageService
+    private notificationService: NotificationService
   ) {}
   
   ngOnInit(): void {
+    this.buildForm();
+    this.startTimer();
+  }
+
+  private buildForm(): void {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required)
     });
+  }
 
+  private startTimer(): void {
     this.timerFn = setInterval(() => {
       this.clickCount = 0;
       this.isLoginButtonDisabled = false;
@@ -53,28 +60,38 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public login(): void {
+    const isValid = this.validate();
+    this.handleLoginButton();
+
+    if(isValid) {
+      const { email, password } = this.loginForm.value;
+
+      this.loginService.login(email, password).subscribe({
+        next: (response) => {
+          this.notificationService.notifySuccess(response.message!);
+        },
+        error: (error) => {
+          this.notificationService.notifyError(error.message);
+        }
+      });
+    }
+  }
+
+  private handleLoginButton(): void {
     if (this.isLoginButtonReachedMaxClicks()) {
-      this.showError('You have reached the maximum number of attempts, please wait a few minutes and try again');
+      this.notificationService.notifyError('You have reached the maximum number of attempts, please wait a few minutes and try again');
       this.disableLoginButton();
       return;
     }
     
     this.clickCount++;
-    this.validate();
-
-    const { email, password } = this.loginForm.value;
-    this.loginService.login(email, password);
   }
 
   private isLoginButtonReachedMaxClicks(): boolean {
     return this.clickCount >= this.maxClicks;
   }
 
-  private showError(message: string): void {
-    this.messageService.add({severity:'error', summary: 'Error', detail: message});
-  }
-
-  disableLoginButton() {
+  public disableLoginButton() {
     this.isLoginButtonDisabled = true;
   }
 
@@ -86,7 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     messageList.forEach(message => {
-      this.showError(message);
+      this.notificationService.notifyError(message);
     });
 
     return false;

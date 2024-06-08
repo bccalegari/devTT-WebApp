@@ -8,7 +8,7 @@ export class LoginValidator {
 
   constructor() {}
 
-  validate(form: FormGroup): string[] {
+  public validate(form: FormGroup): string[] {
     const messageList: string[] = [];
 
     if (form.invalid) {
