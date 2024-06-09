@@ -13,15 +13,15 @@ export class LoginValidator {
 
     if (form.invalid) {
         if (form.controls['email'].hasError('required')) {
-            messageList.push('Email is required');
+            messageList.push('O campo email é obrigatório');
         }
 
         if (form.controls['email'].hasError('email')) {
-            messageList.push('Email is invalid');
+            messageList.push('Email inválido');
         }
 
         if (form.controls['password'].invalid) {
-            messageList.push('Password is required');
+            messageList.push('O campo senha é obrigatório');
         }
     }
 

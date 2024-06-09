@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private handleLoginButton(): void {
     if (this.isLoginButtonReachedMaxClicks()) {
-      this.notificationService.notifyError('You have reached the maximum number of attempts, please wait a few minutes and try again');
+      this.notificationService.notifyError('Você atingiu o limite de tentativas de login. Aguarde 1 minuto para tentar novamente.');
       this.disableLoginButton();
       return;
     }
