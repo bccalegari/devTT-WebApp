@@ -1,0 +1,29 @@
+<div *ngIf="userName && userRole;">
+    <app-header [role]="userRole"/>
+    <div class="container">
+        <div class="left-container">
+            <div class="upper-inner-container">
+                <app-welcome-card [userName]="userName"/>
+            </div>
+                <div class="footer-inner-container">
+                    <app-kpi-card [imageSrc]="'assets/svg/company-kpi.svg'"
+                    [title]="'Empresas cadastradas'" [value]="321"/>
+                    <app-kpi-card [imageSrc]="'assets/svg/user-kpi.svg'"
+                    [title]="'Funcionários cadastradas'" [value]="3221"/>
+                </div>
+        </div>
+        <div class="right-container">
+            <div class="inner-container-bar">
+                <p-card>
+                    <p-chart type="bar" [data]="dataBar" [options]="optionsBar"/>
+                </p-card>
+            </div>
+        </div>
+    </div>
+    <p-divider type="solid"/>
+    <div class="footer-container">
+        <p-card>
+            <p-chart type="line" [data]="data" [options]="options" />
+        </p-card>
+    </div>
+</div>

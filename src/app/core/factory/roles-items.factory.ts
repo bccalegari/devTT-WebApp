@@ -1,0 +1,68 @@
+import { MenuItem } from 'primeng/api';
+import { AuthService } from '../services/auth/auth.interface.service';
+import { NotificationService } from '../services/notification/notification.interface.service';
+
+export class RolesItemsFactory {
+  private readonly ITEMS_WHITELIST: string[] = ['Início', 'Perfil', 'Sair'];
+  private _items: MenuItem[] = [];
+  private _rolesItems!: Map<string, string[]>;
+  private readonly _authService: AuthService;
+  private readonly _notificationService: NotificationService;
+
+  constructor(authService: AuthService, notificationService: NotificationService) {
+    this._authService = authService;
+    this._notificationService = notificationService;
+    this.prepareFactory();
+  }
+
+  public createMenuItems(role: string): MenuItem[] {
+    const userRolesItems: string[] = this._rolesItems.get(role)!;
+    const items = [...this.ITEMS_WHITELIST, ...userRolesItems];
+    return this._items.filter((item: MenuItem) => items.includes(item.label!));
+  }
+
+  private prepareFactory(): void {
+    this._items = this.prepareItemsList(this._authService, this._notificationService);
+    this._rolesItems = this.prepareRolesItems();
+  }
+
+  private prepareRolesItems(): Map<string, string[]> {
+    return (this._rolesItems = new Map<string, string[]>([['Master', ['Usuários', 'Empresas']]]));
+  }
+
+  private prepareItemsList(
+    authService: AuthService,
+    notificationService: NotificationService,
+  ): MenuItem[] {
+    return [
+      {
+        label: 'Início',
+        icon: 'pi pi-fw pi-home',
+        routerLink: ['/'],
+      },
+      {
+        label: 'Perfil',
+        icon: 'pi pi-fw pi-user',
+        routerLink: ['/perfil'],
+      },
+      {
+        label: 'Usuários',
+        icon: 'pi pi-fw pi-users',
+        routerLink: ['/usuarios'],
+      },
+      {
+        label: 'Empresas',
+        icon: 'pi pi-fw pi-building',
+        routerLink: ['/empresas'],
+      },
+      {
+        label: 'Sair',
+        icon: 'pi pi-fw pi-sign-out',
+        command: () => {
+          notificationService.notifySuccess('Logout realizado com sucesso');
+          authService.logout();
+        },
+      },
+    ];
+  }
+}
