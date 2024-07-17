@@ -2,8 +2,8 @@
     <img src="./assets/svg/partly-cloudy.svg" alt="">
     <div class="inner-card">
         <p>
-            {{dayPeriodString()}}, {{userName}}!
+            {{actualDate() | dayPeriodFormatter}}, {{userName}}!
         </p>
-        <span>{{actualDateString()}}</span>
+        <span>{{actualDate() | dateFormatter}}</span>
     </div>
 </p-card>

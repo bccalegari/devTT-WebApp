@@ -3,14 +3,11 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { DividerModule } from 'primeng/divider';
-import { Observable } from 'rxjs';
 import { LoggedUserInfo } from '../../../core/domain/logged-user-info.interface';
 import { AuthService } from '../../../core/services/auth/auth.interface.service';
 import { AuthServiceImpl } from '../../../core/services/auth/auth.service';
 import { NotificationService } from '../../../core/services/notification/notification.interface.service';
 import { NotificationServiceImpl } from '../../../core/services/notification/notification.service';
-import { LoggedUserInfoService } from '../../../core/services/user/logged-user-info.interface.service';
-import { LoggedUserInfoServiceImpl } from '../../../core/services/user/logged-user-info.service';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { KpiCardComponent } from './components/kpi-card/kpi-card.component';
 import { WelcomeCardComponent } from './components/welcome-card/welcome-card.component';
@@ -33,19 +30,15 @@ import { WelcomeCardComponent } from './components/welcome-card/welcome-card.com
   encapsulation: ViewEncapsulation.None,
 })
 export class HomeComponent implements OnInit {
-  public userName!: string;
-  public userRole!: string;
+  public loggedUserInfo!: LoggedUserInfo;
   public data!: object;
   public options!: object;
   public dataBar!: object;
   public optionsBar!: object;
 
   public constructor(
-    @Inject(LoggedUserInfoServiceImpl)
-    private _loggedUserInfoService: LoggedUserInfoService<Observable<LoggedUserInfo>>,
     @Inject(AuthServiceImpl) private _authService: AuthService,
-    @Inject(NotificationServiceImpl)
-    private _notificationService: NotificationService,
+    @Inject(NotificationServiceImpl) private _notificationService: NotificationService,
   ) {}
 
   public ngOnInit(): void {
@@ -189,14 +182,13 @@ export class HomeComponent implements OnInit {
   }
 
   private _getLoggedUserInfo(): void {
-    this._loggedUserInfoService.getInfo().subscribe({
-      next: userInfo => {
-        this.userName = userInfo.name;
-        this.userRole = userInfo.role;
+    this._authService.getUserLoggedInInfo().subscribe({
+      next: info => {
+        this.loggedUserInfo = info;
       },
       error: error => {
-        this._notificationService.notifyError(error.message);
-        this._authService.logout();
+        console.error(error);
+        this._notificationService.notifyDefaultError();
       },
     });
   }

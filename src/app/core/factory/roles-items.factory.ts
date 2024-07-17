@@ -9,7 +9,7 @@ export class RolesItemsFactory {
   private readonly _authService: AuthService;
   private readonly _notificationService: NotificationService;
 
-  constructor(authService: AuthService, notificationService: NotificationService) {
+  public constructor(authService: AuthService, notificationService: NotificationService) {
     this._authService = authService;
     this._notificationService = notificationService;
     this.prepareFactory();
@@ -48,7 +48,7 @@ export class RolesItemsFactory {
       {
         label: 'Usuários',
         icon: 'pi pi-fw pi-users',
-        routerLink: ['/usuarios'],
+        routerLink: ['/users'],
       },
       {
         label: 'Empresas',

@@ -1,9 +1,9 @@
-<div *ngIf="userName && userRole;">
-    <app-header [role]="userRole"/>
+<div *ngIf="loggedUserInfo;">
+    <app-header [role]="loggedUserInfo.role"/>
     <div class="container">
         <div class="left-container">
             <div class="upper-inner-container">
-                <app-welcome-card [userName]="userName"/>
+                <app-welcome-card [userName]="loggedUserInfo.name"/>
             </div>
                 <div class="footer-inner-container">
                     <app-kpi-card [imageSrc]="'assets/svg/company-kpi.svg'"

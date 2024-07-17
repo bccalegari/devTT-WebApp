@@ -6,6 +6,9 @@ import { NotificationService } from './notification.interface.service';
   providedIn: 'root',
 })
 export class NotificationServiceImpl implements NotificationService {
+  private static readonly _DEFAULT_ERROR_MESSAGE =
+    'Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.';
+
   public constructor(private readonly _messageService: MessageService) {}
 
   public notifySuccess(message: string): void {
@@ -22,5 +25,9 @@ export class NotificationServiceImpl implements NotificationService {
       closable: true,
       detail: message,
     });
+  }
+
+  public notifyDefaultError(): void {
+    this.notifyError(NotificationServiceImpl._DEFAULT_ERROR_MESSAGE);
   }
 }
