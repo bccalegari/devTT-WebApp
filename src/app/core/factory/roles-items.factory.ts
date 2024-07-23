@@ -1,4 +1,5 @@
 import { MenuItem } from 'primeng/api';
+import { LoggedUserJwtPayloadDto } from '../../infra/dtos/logged-user-jwt-payload.dto';
 import { AuthService } from '../services/auth/auth.interface.service';
 import { NotificationService } from '../services/notification/notification.interface.service';
 
@@ -6,10 +7,10 @@ export class RolesItemsFactory {
   private readonly ITEMS_WHITELIST: string[] = ['Início', 'Perfil', 'Sair'];
   private _items: MenuItem[] = [];
   private _rolesItems!: Map<string, string[]>;
-  private readonly _authService: AuthService;
+  private readonly _authService: AuthService<LoggedUserJwtPayloadDto>;
   private readonly _notificationService: NotificationService;
 
-  public constructor(authService: AuthService, notificationService: NotificationService) {
+  public constructor(authService: AuthService<LoggedUserJwtPayloadDto>, notificationService: NotificationService) {
     this._authService = authService;
     this._notificationService = notificationService;
     this.prepareFactory();
@@ -31,7 +32,7 @@ export class RolesItemsFactory {
   }
 
   private prepareItemsList(
-    authService: AuthService,
+    authService: AuthService<LoggedUserJwtPayloadDto>,
     notificationService: NotificationService,
   ): MenuItem[] {
     return [

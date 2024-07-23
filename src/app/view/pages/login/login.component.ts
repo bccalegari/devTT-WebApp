@@ -11,15 +11,15 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { Observable } from 'rxjs';
-import { LoginForm } from '../../../core/domain/login-form.interface';
-import { Response } from '../../../core/domain/response.interface';
-import { Token } from '../../../core/domain/token.interface';
+import { Response } from '../../../core/domain/response.valueobject';
+import { Token } from '../../../core/domain/token.valueobject';
 import { LoginService } from '../../../core/services/login/login.interface.service';
 import { LoginServiceImpl } from '../../../core/services/login/login.service';
 import { NotificationService } from '../../../core/services/notification/notification.interface.service';
 import { NotificationServiceImpl } from '../../../core/services/notification/notification.service';
-import { LoginFormMapper } from '../../../infra/adapters/mappers/login/login-form.mapper';
-import { Mapper } from '../../../infra/adapters/mappers/mapper.interface';
+import { LoginFormDto } from '../../../infra/dtos/login-form.dto';
+import { LoginFormMapper } from '../../../infra/mappers/login/login-form.mapper';
+import { Mapper } from '../../../infra/mappers/mapper.abstract';
 import { LoginFormValidator } from '../../../infra/validator/login/login-form.validator';
 import { Validator } from '../../../infra/validator/validator.interface';
 import { LoginButtonComponent } from './components/login-button/login-button.component';
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     @Inject(LoginFormValidator)
     private readonly _validator: Validator<FormGroup>,
     @Inject(LoginFormMapper)
-    private readonly _mapper: Mapper<FormGroup, LoginForm>,
+    private readonly _mapper: Mapper<FormGroup, LoginFormDto>,
     @Inject(NotificationServiceImpl)
     private _notificationService: NotificationService,
     private _formBuilder: FormBuilder,
@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
     const isFormValid: boolean = this._validator.validate(this.loginForm);
 
     if (isFormValid) {
-      const requestDto: LoginForm = this._mapper.map(this.loginForm);
+      const requestDto: LoginFormDto = this._mapper.map(this.loginForm);
 
       this._loginService.login(requestDto.email, requestDto.password).subscribe({
         next: response => {

@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ApiError } from './api-error';
 
 export class ApiErrorFactory {
-  private static ERROR_MESSAGE = 'An error occurred, please try again later';
+  private static ERROR_MESSAGE = 'Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.';
   private static ERROR_STATUS = 500;
 
   public static createApiError(error: Error): ApiError {

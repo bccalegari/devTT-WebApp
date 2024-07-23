@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DayPeriod } from '../../../core/domain/day-period.interface';
-import { DayPeriodsFactory } from '../../../core/factory/day-periods.factory';
+import { DayPeriod } from '../../../core/domain/day-period.valueobject';
 
 @Pipe({
   name: 'dayPeriodFormatter',
@@ -17,7 +16,7 @@ export class DayPeriodFormatterPipe implements PipeTransform {
 
   private _getDayPeriodString(date: Date): string {
     const hours = date.getHours();
-    const dayPeriods: DayPeriod[] = DayPeriodsFactory.getDayPeriods();
+    const dayPeriods: DayPeriod[] = DayPeriod.getAvailableDayPeriods();
     return dayPeriods.find(period => hours >= period.start && hours < period.end)?.period || '';
   }
 }

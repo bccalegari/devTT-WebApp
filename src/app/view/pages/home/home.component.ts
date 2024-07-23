@@ -3,11 +3,14 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { DividerModule } from 'primeng/divider';
-import { LoggedUserInfo } from '../../../core/domain/logged-user-info.interface';
+import { User } from '../../../core/domain/user.entity';
 import { AuthService } from '../../../core/services/auth/auth.interface.service';
 import { AuthServiceImpl } from '../../../core/services/auth/auth.service';
 import { NotificationService } from '../../../core/services/notification/notification.interface.service';
 import { NotificationServiceImpl } from '../../../core/services/notification/notification.service';
+import { LoggedUserJwtPayloadDto } from '../../../infra/dtos/logged-user-jwt-payload.dto';
+import { Mapper } from '../../../infra/mappers/mapper.abstract';
+import { LoggedUserMapper } from '../../../infra/mappers/user/logged-user.mapper';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { KpiCardComponent } from './components/kpi-card/kpi-card.component';
 import { WelcomeCardComponent } from './components/welcome-card/welcome-card.component';
@@ -30,19 +33,20 @@ import { WelcomeCardComponent } from './components/welcome-card/welcome-card.com
   encapsulation: ViewEncapsulation.None,
 })
 export class HomeComponent implements OnInit {
-  public loggedUserInfo!: LoggedUserInfo;
+  public loggedUser!: User;
   public data!: object;
   public options!: object;
   public dataBar!: object;
   public optionsBar!: object;
 
   public constructor(
-    @Inject(AuthServiceImpl) private _authService: AuthService,
-    @Inject(NotificationServiceImpl) private _notificationService: NotificationService,
+    @Inject(AuthServiceImpl) private readonly _authService: AuthService<LoggedUserJwtPayloadDto>,
+    @Inject(NotificationServiceImpl) private readonly _notificationService: NotificationService,
+    @Inject(LoggedUserMapper) private readonly _loggedUserInfoMapper: Mapper<LoggedUserJwtPayloadDto, User>
   ) {}
 
   public ngOnInit(): void {
-    this._getLoggedUserInfo();
+    this._getLoggedUser();
 
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
@@ -181,10 +185,10 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  private _getLoggedUserInfo(): void {
-    this._authService.getUserLoggedInInfo().subscribe({
-      next: info => {
-        this.loggedUserInfo = info;
+  private _getLoggedUser(): void {
+    this._authService.getLoggedUser().subscribe({
+      next: user => {
+        this.loggedUser = this._loggedUserInfoMapper.map(user);
       },
       error: error => {
         console.error(error);

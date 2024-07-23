@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
-import { LoggedUserInfo } from '../../domain/logged-user-info.interface';
+import { LoggedUserJwtPayloadDto } from '../../../infra/dtos/logged-user-jwt-payload.dto';
 import { AuthService } from './auth.interface.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthServiceImpl implements AuthService {
+export class AuthServiceImpl implements AuthService<LoggedUserJwtPayloadDto> {
   public constructor(private readonly _router: Router) {}
 
   public isAuthenticated(): boolean {
@@ -26,12 +26,12 @@ export class AuthServiceImpl implements AuthService {
     this._router.navigate(['/login']);
   }
 
-  public getUserLoggedInInfo(): Observable<LoggedUserInfo> {
+  public getLoggedUser(): Observable<LoggedUserJwtPayloadDto> {
     const token: string = localStorage.getItem('token') ?? '';
 
     return new Observable(observer => {
       try {
-        observer.next(jwtDecode(token));
+        observer.next(jwtDecode(token) as LoggedUserJwtPayloadDto);
         observer.complete();
       } catch (error) {
         observer.error(error);
