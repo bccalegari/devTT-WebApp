@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="inner-container">
+    <p-fieldset>
+      <ng-template pTemplate="header">
+          <div class="flex align-items-center gap-2 px-2">
+            <p-chip label={{title}} icon={{icon}}/>
+          </div>
+      </ng-template>
+      <ng-content></ng-content>
+    </p-fieldset>
+  </div>
+</div>

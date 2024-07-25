@@ -1,0 +1,73 @@
+@import "../../../../../../../variables.scss";
+
+app-welcome-card {
+    width: 80%;
+
+    p-card {
+        .p-card {
+            box-shadow: none;
+            border-radius: 30px;
+            .p-card-body {
+                .p-card-content {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 0.2rem;
+                    img {
+                        max-width: 100%;
+                        height: auto;
+                    }
+                    .inner-card {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        p {
+                            margin: 0;
+                            color: $font-primary-color;
+                            font-size: 1.25rem;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: normal;
+                            letter-spacing: 0.03125rem;
+                        }
+                        span {
+                            color: $font-secondary-color;
+                            text-align: left;
+                            font-size: 0.75rem;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                            letter-spacing: 0.03125rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    app-welcome-card {
+        width: 100%;
+        p-card {
+            padding: 0;
+            .p-card {
+                .p-card-body {
+                    padding: 0;
+                    .p-card-content {
+                        padding: 0.2rem;
+                        .inner-card {
+                            p {
+                                font-size: 1rem;
+                            }
+                            span {
+                                font-size: 0.7rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

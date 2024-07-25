@@ -1,0 +1,27 @@
+@import "../../../../../../../../variables.scss";
+
+.p-menubar {
+    background: $background-secondary-color;
+    border: none;
+    border-radius: 0;
+
+    p-menubarsub {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+
+        .p-menuitem-icon{
+            color: $font-primary-color;
+            font-weight: 500;
+        }
+        .p-menuitem-text {
+            color: $font-primary-color;
+            font-weight: 500;
+        }
+    }
+
+    a.p-menubar-button{
+        order: 3;
+    }
+}

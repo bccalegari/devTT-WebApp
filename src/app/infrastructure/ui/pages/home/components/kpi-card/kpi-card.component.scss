@@ -1,0 +1,58 @@
+@import "../../../../../../../variables.scss";
+
+app-kpi-card {
+    width: 40%;
+
+    p-card {
+        .p-card {
+            box-shadow: none;
+            border-radius: 30px;
+            .p-card-body {
+                display: flex;
+                padding: 0.4rem 0.6rem;
+                justify-content: center;
+                align-items: center;
+                .p-card-content {
+                    padding: 0.4rem 0.6rem;
+                    display: flex;
+                    gap: 1.7rem;
+                    justify-content: center;
+                    align-items: center;
+
+                    .inner-card {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 0.1rem;
+
+                        p {
+                            margin: 0;
+                            color: $font-tertiary-color;
+                            font-size: 0.875rem;
+                            font-style: normal;
+                            font-weight: 500;
+                            line-height: 1.5rem;
+                            letter-spacing: -0.0175rem;
+                        }
+                        span {
+                            color: $font-primary-color;
+                            font-size: 1.5rem;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: 2rem;
+                            letter-spacing: -0.03rem;
+                            align-self: flex-start;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    app-kpi-card {
+        width: 100%;
+    }
+}
