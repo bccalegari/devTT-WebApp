@@ -54,7 +54,7 @@ export class RolesItemsFactory {
       {
         label: 'Empresas',
         icon: 'pi pi-fw pi-building',
-        routerLink: ['/empresas'],
+        routerLink: ['/companies'],
       },
       {
         label: 'Sair',

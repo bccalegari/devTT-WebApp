@@ -1,0 +1,21 @@
+.p-dialog{
+  .p-dialog-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    color: #495057;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 1rem;
+  }
+
+  .p-dialog-content {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 10px;
+
+    input {
+      width: 100%;
+    }
+  }
+}

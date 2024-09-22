@@ -1,0 +1,36 @@
+<div>
+  <p-dialog header="{{data ? data.name : 'Criar uma nova empresa'}}"
+            [modal]="true"
+            [(visible)]="visible"
+            (onHide)="hideDialog()"
+            [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+            [style]="{ width: '50vw' }"
+            [draggable]="false"
+            [resizable]="false">
+      <ng-template pTemplate="content">
+        <h5>Informações da empresa</h5>
+        <label for="name">Nome</label>
+        <input type="text" pInputText id="name" placeholder="Insira o nome da empresa"
+               value="{{data ? data.name : ''}}" required/>
+        <label for="cnpj">CNPJ</label>
+        <p-inputMask id="cnpj" mask="**.***.***/****-**" placeholder="99.999.999/9999-99"
+                     [ngModel]="data?.cnpj" required/>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <p-button
+          label="Cancelar"
+          severity="danger"
+          icon="pi pi-times"
+          title="Cancelar"
+          (onClick)="hideDialog()"
+          [text]="true"/>
+        <p-button
+          label="Salvar"
+          title="Salvar"
+          severity="success"
+          icon="pi pi-check"
+          (onClick)="saveCompany()"
+          [text]="true"/>
+      </ng-template>
+  </p-dialog>
+</div>

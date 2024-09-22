@@ -9,4 +9,8 @@ export const routes: Routes = [
   },
   { path: 'users', canActivate: [authenticationGuard],
     loadComponent: () => import('./infrastructure/ui/pages/users/users.component').then(m => m.UsersComponent) },
+  {
+    path: 'companies', canActivate: [authenticationGuard],
+    loadComponent: () => import('./infrastructure/ui/pages/companies/companies.component').then(m => m.CompaniesComponent)
+  }
 ];

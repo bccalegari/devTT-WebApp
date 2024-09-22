@@ -1,0 +1,74 @@
+<app-logged-layout [role]="loggedUser.role" title="Empresas" icon="pi pi-building">
+  <div class="company-content">
+    <p-button label="Inserir uma nova empresa" severity="success" (onClick)="openNewCompanyDialog()"/>
+    @if (loading) {
+      <div class="loading"><p-progressSpinner ariaLabel="loading" /></div>
+    } @else {
+      <p-table
+        #dt [value]="data" [tableStyle]="{ 'min-width': '50rem' }" [globalFilterFields]="['name', 'cnpj']">
+        @if (data.length === 0) {
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="4">Nenhuma empresa encontrada.</td>
+            </tr>
+          </ng-template>
+        } @else {
+          <ng-template pTemplate="caption">
+            <div class="search-div">
+              <h5 class="m-0">Gerenciar empresas</h5>
+              <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="filterCompanies($event)" placeholder="Pesquisar..." title="Pesquisar..." />
+                </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th title="ID">ID</th>
+              <th title="Nome">Nome</th>
+              <th title="CNPJ">CNPJ</th>
+              <th title="Ações">Ações</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td title="{{data.id}}">{{data.id}}</td>
+              <td title="{{data.name}}">{{data.name}}</td>
+              <td title="{{data.cnpj}}">{{data.cnpj}}</td>
+              <td>
+                <div class="action-buttons">
+                  <p-button
+                    icon="pi pi-pencil"
+                    class="mr-2"
+                    [rounded]="true"
+                    [outlined]="true"
+                    severity="info"
+                    title="Editar"
+                    (onClick)="openUpdateCompanyDialog(data)"/>
+                  <p-button
+                    icon="pi pi-trash"
+                    severity="danger"
+                    [rounded]="true"
+                    [outlined]="true"
+                    title="Deletar"
+                    (onClick)="deleteCompany($event, data)"/>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        }
+      </p-table>
+      @if (data.length > 0) {
+        <p-paginator
+          [rows]="5"
+          [totalRecords]="totalRecords"
+          [rowsPerPageOptions]="[5,10]"
+          (onPageChange)="getNewCompanyPage($event)"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Exibindo de {first} a {last} de um total de {totalRecords} empresas."/>
+      }
+    }
+  </div>
+  <p-confirmDialog/>
+  <app-upsert-company [type]="companyDialogType" [(visible)]=displayNewCompanyDialog [data]="companyData" />
+</app-logged-layout>

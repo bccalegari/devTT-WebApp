@@ -1,11 +1,11 @@
 <app-logged-layout [role]="loggedUser.role" title="Usuários" icon="pi pi-users">
   <div class="user-content">
     <p-button label="Inserir um novo usuário" severity="success"/>
-    <p-table [value]="data">
+    <p-table [value]="data" [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="header">
         <tr>
             <th>Nome</th>
-            <th>CPF | CNPJ</th>
+            <th>CPF</th>
             <th>Telefone</th>
             <th>Email</th>
             <th>Status</th>

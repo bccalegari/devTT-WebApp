@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, takeUntil } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AbstractApiGateway } from '../../core/abstractions/infrastructure/gateways/api.abstract.gateway';
@@ -16,9 +16,10 @@ export abstract class DevTtAbstractApiGateway<T> extends AbstractApiGateway<T> {
     this._internalUnsubscriberHook$ = unsubscriberHook$;
   }
 
-  protected override get(url: string): Observable<T> {
+  protected override get(url: string, options: Record<string, any>): Observable<T> {
+    const params = new HttpParams({ fromObject: options });
     return this._internalHttp
-      .get<T>(this._apiBaseUrl.concat(url))
+      .get<T>(this._apiBaseUrl.concat(url), { params })
       .pipe(takeUntil(this._internalUnsubscriberHook$.destroy$));
   }
 
