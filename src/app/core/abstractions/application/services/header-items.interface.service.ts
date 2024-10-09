@@ -1,3 +1,5 @@
-export interface HeaderItemsService<T> {
-  get(role: string): T;
+import { MenuItem } from 'primeng/api';
+
+export interface HeaderItemsService {
+  get(role: string): MenuItem[];
 }

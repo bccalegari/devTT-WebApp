@@ -11,9 +11,9 @@ import { NotificationServiceImpl } from './notification.service';
 @Injectable({
   providedIn: 'root',
 })
-export class HeaderItemsServiceImpl implements HeaderItemsService<MenuItem[]> {
+export class HeaderItemsServiceImpl implements HeaderItemsService {
   public constructor(
-    @Inject(AuthServiceImpl) private readonly _authService: AuthService<LoggedUserJwtPayloadDto>,
+    @Inject(AuthServiceImpl) private readonly _authService: AuthService,
     @Inject(NotificationServiceImpl)
     private readonly _notificationService: NotificationService,
   ) {}

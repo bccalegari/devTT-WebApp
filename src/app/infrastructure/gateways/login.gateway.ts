@@ -11,8 +11,8 @@ import { DevTtAbstractApiGateway } from './devtt-api.abstract.gateway';
   providedIn: 'root',
 })
 export class LoginGatewayImpl
-  extends DevTtAbstractApiGateway<LoginResponseDto>
-  implements LoginGateway<Observable<LoginResponseDto>>
+  extends DevTtAbstractApiGateway
+  implements LoginGateway
 {
   private readonly _url: string = '/auth/login';
 

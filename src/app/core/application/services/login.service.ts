@@ -12,10 +12,10 @@ import { ResponseTokenMapper } from '../mappers/response-token.mapper';
 @Injectable({
   providedIn: 'root',
 })
-export class LoginServiceImpl implements LoginService<Observable<Response<Token>>> {
+export class LoginServiceImpl implements LoginService {
   public constructor(
     @Inject(LoginGatewayImpl)
-    private readonly _gateway: LoginGateway<Observable<LoginResponseDto>>,
+    private readonly _gateway: LoginGateway,
     @Inject(ResponseTokenMapper) private readonly _mapper: Mapper<LoginResponseDto, Response<Token>>
   ) {}
 

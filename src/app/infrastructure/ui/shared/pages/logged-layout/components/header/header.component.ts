@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     @Inject(HeaderItemsServiceImpl)
-    private _service: HeaderItemsService<MenuItem[]>,
+    private _service: HeaderItemsService,
   ) {}
 
   public ngOnInit(): void {

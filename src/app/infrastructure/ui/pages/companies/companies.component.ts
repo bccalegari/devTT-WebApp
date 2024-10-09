@@ -14,9 +14,8 @@ import { LoggedUserJwtPayloadDto } from '../../../dtos/logged-user-jwt-payload.d
 import { LoggedLayoutComponent } from '../../shared/pages/logged-layout/logged-layout.component';
 import { CompanyServiceImpl } from '../../../../core/application/services/company.service';
 import { CompanyService } from '../../../../core/abstractions/application/services/company.interface.service';
-import { debounceTime, distinctUntilChanged, finalize, Observable, Subject, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, Subject, switchMap } from 'rxjs';
 import { CompanyGetResponseDto } from '../../../dtos/company-get-response.dto';
-import { Page } from '../../../../core/domain/valueobjects/page.valueobject';
 import { Company } from '../../../../core/domain/entities/company.entity';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputTextModule } from 'primeng/inputtext';
@@ -52,14 +51,16 @@ export class CompaniesComponent implements OnInit {
   public companyDialogType!: 'save' | 'update';
   public displayNewCompanyDialog = false;
   public companyData!: Company;
+  public currentPage = 0;
+  public currentRows = 5;
 
   public constructor(
-    @Inject(AuthServiceImpl) private readonly _authService: AuthService<LoggedUserJwtPayloadDto>,
+    @Inject(AuthServiceImpl) private readonly _authService: AuthService,
     @Inject(NotificationServiceImpl) private readonly _notificationService: NotificationService,
     @Inject(LoggedUserMapper)
     private readonly _loggedUserInfoMapper: Mapper<LoggedUserJwtPayloadDto, User>,
     @Inject(CompanyServiceImpl)
-    private readonly _companyService: CompanyService<Observable<Page<Company>>>,
+    private readonly _companyService: CompanyService,
     private confirmationService: ConfirmationService,
   ) {
     this._searchSubject
@@ -88,10 +89,22 @@ export class CompaniesComponent implements OnInit {
   }
 
   public getNewCompanyPage(event: PaginatorState): void {
+    this.currentPage = event.page ?? 0;
+    this.currentRows = event.rows ?? 5;
+
     this._getCompanies({
-      page: event.page,
-      size: event.rows,
+      page: this.currentPage,
+      size: this.currentRows,
     });
+  }
+
+  public refreshTable(page: number, rows: number): void {
+    setTimeout(() => {
+      this._getCompanies({
+        page: page,
+        size: rows,
+      });
+    }, 1000);
   }
 
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -110,6 +123,7 @@ export class CompaniesComponent implements OnInit {
     this.displayNewCompanyDialog = true;
   }
 
+  //eslint-disable-next-line @typescript-eslint/no-explicit-any
   public deleteCompany(event: any, company: Company): void {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
@@ -125,7 +139,15 @@ export class CompaniesComponent implements OnInit {
       defaultFocus: 'reject',
 
       accept: () => {
-        this._notificationService.notifySuccess('A empresa foi deletada com sucesso!');
+        this._companyService.delete(company.id).subscribe({
+          next: response => {
+            this._notificationService.notifySuccess(response.message!);
+            this.refreshTable(this.currentPage, this.currentRows);
+          },
+          error: response => {
+            this._notificationService.notifyError(response.message);
+          },
+        });
       },
       reject: () => {
         this._notificationService.notifyError('Operação cancelada!');

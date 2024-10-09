@@ -7,10 +7,10 @@ export class RolesItemsFactory {
   private readonly ITEMS_WHITELIST: string[] = ['Início', 'Perfil', 'Sair'];
   private _items: MenuItem[] = [];
   private _rolesItems!: Map<string, string[]>;
-  private readonly _authService: AuthService<LoggedUserJwtPayloadDto>;
+  private readonly _authService: AuthService;
   private readonly _notificationService: NotificationService;
 
-  public constructor(authService: AuthService<LoggedUserJwtPayloadDto>, notificationService: NotificationService) {
+  public constructor(authService: AuthService, notificationService: NotificationService) {
     this._authService = authService;
     this._notificationService = notificationService;
     this.prepareFactory();
@@ -32,7 +32,7 @@ export class RolesItemsFactory {
   }
 
   private prepareItemsList(
-    authService: AuthService<LoggedUserJwtPayloadDto>,
+    authService: AuthService,
     notificationService: NotificationService,
   ): MenuItem[] {
     return [

@@ -70,5 +70,6 @@
     }
   </div>
   <p-confirmDialog/>
-  <app-upsert-company [type]="companyDialogType" [(visible)]=displayNewCompanyDialog [data]="companyData" />
+  <app-upsert-company [type]="companyDialogType" [(visible)]=displayNewCompanyDialog [data]="companyData"
+                      (refreshTable)="refreshTable(currentPage, currentRows)"  />
 </app-logged-layout>

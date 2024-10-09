@@ -11,10 +11,10 @@
         <h5>Informações da empresa</h5>
         <label for="name">Nome</label>
         <input type="text" pInputText id="name" placeholder="Insira o nome da empresa"
-               value="{{data ? data.name : ''}}" required/>
+               [formControl]="nameControl" required/>
         <label for="cnpj">CNPJ</label>
         <p-inputMask id="cnpj" mask="**.***.***/****-**" placeholder="99.999.999/9999-99"
-                     [ngModel]="data?.cnpj" required/>
+                     [formControl]="cnpjControl" required/>
       </ng-template>
       <ng-template pTemplate="footer">
         <p-button
@@ -29,7 +29,7 @@
           title="Salvar"
           severity="success"
           icon="pi pi-check"
-          (onClick)="saveCompany()"
+          (onClick)="upsertCompany()"
           [text]="true"/>
       </ng-template>
   </p-dialog>

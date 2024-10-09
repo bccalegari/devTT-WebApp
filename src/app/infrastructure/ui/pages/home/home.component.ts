@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
   public optionsBar!: object;
 
   public constructor(
-    @Inject(AuthServiceImpl) private readonly _authService: AuthService<LoggedUserJwtPayloadDto>,
+    @Inject(AuthServiceImpl) private readonly _authService: AuthService,
     @Inject(NotificationServiceImpl) private readonly _notificationService: NotificationService,
     @Inject(LoggedUserMapper) private readonly _loggedUserInfoMapper: Mapper<LoggedUserJwtPayloadDto, User>
   ) {}

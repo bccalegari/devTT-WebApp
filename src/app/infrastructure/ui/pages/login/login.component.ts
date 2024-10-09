@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { Observable } from 'rxjs';
 import { Mapper } from '../../../../core/abstractions/application/mappers/mapper.abstract';
 import { LoginService } from '../../../../core/abstractions/application/services/login.interface.service';
 import { NotificationService } from '../../../../core/abstractions/application/services/notification.interface.service';
@@ -45,7 +44,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     @Inject(LoginServiceImpl)
-    private _loginService: LoginService<Observable<Response<Token>>>,
+    private _loginService: LoginService,
     @Inject(LoginFormValidator)
     private readonly _validator: Validator<FormGroup>,
     @Inject(LoginFormMapper)

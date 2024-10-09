@@ -40,9 +40,10 @@ export class UsersComponent implements OnInit {
   ];
 
   public constructor(
-    @Inject(AuthServiceImpl) private _authService: AuthService<LoggedUserJwtPayloadDto>,
+    @Inject(AuthServiceImpl) private _authService: AuthService,
     @Inject(NotificationServiceImpl) private _notificationService: NotificationService,
-    @Inject(LoggedUserMapper) private readonly _loggedUserInfoMapper: Mapper<LoggedUserJwtPayloadDto, User>
+    @Inject(LoggedUserMapper)
+    private readonly _loggedUserInfoMapper: Mapper<LoggedUserJwtPayloadDto, User>,
   ) {}
 
   public ngOnInit(): void {

@@ -8,7 +8,7 @@ import { AuthService } from '../../abstractions/application/services/auth.interf
 @Injectable({
   providedIn: 'root',
 })
-export class AuthServiceImpl implements AuthService<LoggedUserJwtPayloadDto> {
+export class AuthServiceImpl implements AuthService {
   public constructor(private readonly _router: Router) {}
 
   public isAuthenticated(): boolean {
